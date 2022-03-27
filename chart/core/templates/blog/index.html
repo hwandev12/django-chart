@@ -1,78 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home page</title>
-    <!-- semantic UI -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css"
-    />
-    <!--Chart js-->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
-      integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css"
-    />
-  </head>
-  <body>
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
-    <canvas id="myChart" width="400" height="400"></canvas>
+{% extends 'blog/base.html' %}
+{% block content %}
+    <canvas id="chart-bar" width="800" height="450"></canvas>
     <script>
-      const ctx = document.getElementById("myChart").getContext("2d");
-      const myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['England', 'Portugal', 'France', 'Argentina', 'Belgium', 'Switzerland', 'Croatia'],
-        datasets: [{
-          label: "World Cup win percent(%)",
-          data: [65,56,67,50,56,56,49],
-            backgroundColor: [
-                'rgba(205, 21, 230, 0.4)',
-                'rgba(54, 162, 235, 0.4)',
-                'rgba(255, 206, 86, 0.4)',
-                'rgba(75, 192, 192, 0.4)',
-                'rgba(153, 102, 255, 0.4)',
-                'rgba(255, 159, 64, 0.4)',
-                'rgba(4, 86, 92, 0.4)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(4, 86, 92, 0.4)'
-            ],
-            borderWidth: 1
-        }],
-      },
-        options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+        new Chart(document.getElementById("chart-bar"), {
+    type: 'bar',
+    data: {
+      labels: ["1900", "1950", "1999", "2050"],
+      datasets: [
+        {
+          label: "Uzbekistan",
+          backgroundColor: "#3e95cd",
+          data: [133,221,783,2478]
+        }, {
+          label: "Kazakhstan",
+          backgroundColor: "#8e5ea2",
+          data: [408,547,675,734]
         }
-      },  
-      });
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Aholi o'sib borishi(million)"
+      }
+    }
+});
+
     </script>
-  </body>
-</html>
+{% endblock content %}
