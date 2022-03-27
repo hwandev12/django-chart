@@ -1,30 +1,29 @@
-{% extends 'blog/base.html' %}
-{% block content %}
-    <canvas id="chart-bar" width="800" height="450"></canvas>
-    <script>
-        new Chart(document.getElementById("chart-bar"), {
-    type: 'bar',
+{% extends 'blog/base.html' %} {% block content %}
+<canvas id="chart-bar" width="800" height="450"></canvas>
+<script>
+  new Chart(document.getElementById("chart-bar"), {
+    type: "bar",
     data: {
       labels: ["1900", "1950", "1999", "2050"],
       datasets: [
         {
           label: "Uzbekistan",
           backgroundColor: "#3e95cd",
-          data: [133,221,783,2478]
-        }, {
+          data: [133, 221, 783, 2478],
+        },
+        {
           label: "Kazakhstan",
           backgroundColor: "#8e5ea2",
-          data: [408,547,675,734]
-        }
-      ]
+          data: [408, 547, 675, 734],
+        },
+      ],
     },
     options: {
       title: {
         display: true,
-        text: "Aholi o'sib borishi(million)"
-      }
-    }
-});
-
-    </script>
+        text: "Aholi o'sib borishi(million)",
+      },
+    },
+  });
+</script>
 {% endblock content %}
