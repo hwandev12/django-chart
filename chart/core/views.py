@@ -16,3 +16,10 @@ def pieMarket(request):
 		"posts": posts
 	}
 	return render(request, 'blog/market-pie.html', context)
+
+def steps(request):
+	posts = Post.objects.all()
+	context = {
+		"posts": posts
+	}
+	return render(request, 'blog/steps.html', context)
