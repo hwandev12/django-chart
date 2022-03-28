@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Post
 
+
 def home(request):
 	posts = Post.objects.all()
 	context = {
@@ -10,4 +11,8 @@ def home(request):
 
 # Piemarket
 def pieMarket(request):
-	return render(request, 'blog/market-pie.html')
+	posts = Post.objects.all()
+	context = {
+		"posts": posts
+	}
+	return render(request, 'blog/market-pie.html', context)
