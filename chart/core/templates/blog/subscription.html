@@ -1,0 +1,54 @@
+{% load static %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'css/sub.css' %}">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">Subscription List</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-wrap user-table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="border-0 text-uppercase font-medium pl-4">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Assigned</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Company b Name</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Owner</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Open Date</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Status</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td class="pl-4">{{ user.index }}</td>
+                                <td>
+                                    <h5 class="text-muted font-medium mb-0">{{ user.name }}</h5>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{ user.company }}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{ user.owner }}</span><br>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{ user.open_date }}</span><br>
+                                </td>
+                                <td>
+                                    <a style="background-color: #ede8dd; padding: 4px 20px; color: green;" href="#">{{ user.status }}</a>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{ user.impact }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

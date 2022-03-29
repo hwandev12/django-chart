@@ -24,4 +24,20 @@ class Expense(models.Model):
 
     def __str__(self):
         return self.name
-    
+ 
+class User(models.Model):
+
+ 	class Meta:
+ 		verbose_name = "User"
+ 		verbose_name_plural = "My Users"
+
+ 	index = models.IntegerField()
+ 	name = models.CharField(max_length=100)
+ 	company = models.CharField(max_length=50)
+ 	owner = models.CharField(max_length=60)
+ 	open_date = models.CharField(max_length=40)
+ 	status = models.CharField(max_length=20)
+ 	impact = models.FloatField()
+
+ 	def __str__(self):
+ 		return self.name

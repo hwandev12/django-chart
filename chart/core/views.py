@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from .models import Post, Expense
+from .models import Post, Expense, User
 
 
 def home(request):
 	posts = Post.objects.all()
 	expenses = Expense.objects.all()
+	users = User.objects.all()
 	context = {
 		"posts": posts,
-		"expenses": expenses
+		"expenses": expenses,
+		"users": users
 	}
 	return render(request, 'blog/index.html', context)
 
@@ -18,10 +20,3 @@ def pieMarket(request):
 		"posts": posts
 	}
 	return render(request, 'blog/market-pie.html', context)
-
-def steps(request):
-	posts = Post.objects.all()
-	context = {
-		"posts": posts
-	}
-	return render(request, 'blog/steps.html', context)
