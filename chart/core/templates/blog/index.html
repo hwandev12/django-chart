@@ -1,54 +1,125 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<!-- Styles -->
-<!-- HTML -->
 <div id="chartdiv"></div>
 <style>
 #chartdiv {
-    width: 100%;
-    height: 500px;
+  width: 100%;
+  height: 500px;
 }
 </style>
+
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
 <!-- Chart code -->
 <script>
 am5.ready(function() {
 
-    var root = am5.Root.new("chartdiv");
 
-    root.setThemes([
-        am5themes_Animated.new(root)
-    ]);
+var root = am5.Root.new("chartdiv");
 
-    var chart = root.container.children.push(
-        am5percent.PieChart.new(root, {
-            endAngle: 270
-        })
-    );
 
-    var series = chart.series.push(
-        am5percent.PieSeries.new(root, {
-            valueField: "value",
-            categoryField: "category",
-            endAngle: 270
-        })
-    );
+root.setThemes([
+  am5themes_Animated.new(root)
+]);
 
-    series.states.create("hidden", {
-        endAngle: -90
-    });
 
-    series.data.setAll([{% for post in posts %}{
-        category: "{{ post.name }}",
-        value: {{ post.quantity }}
-    },{% endfor %}
-    ]);
+var chart = root.container.children.push(
+  am5xy.XYChart.new(root, {
+    panX: true,
+    panY: true,
+    wheelX: "panX",
+    wheelY: "zoomX"
+  })
+);
 
-    series.appear(1000, 100);
 
+var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+cursor.lineY.set("visible", false);
+
+
+var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+
+var xAxis = chart.xAxes.push(
+  am5xy.CategoryAxis.new(root, {
+    maxDeviation: 0.3,
+    categoryField: "country",
+    renderer: xRenderer,
+    tooltip: am5.Tooltip.new(root, {})
+  })
+);
+
+var yAxis = chart.yAxes.push(
+  am5xy.ValueAxis.new(root, {
+    maxDeviation: 0.3,
+    renderer: am5xy.AxisRendererY.new(root, {})
+  })
+);
+
+
+var series = chart.series.push(
+  am5xy.ColumnSeries.new(root, {
+    name: "Series 1",
+    xAxis: xAxis,
+    yAxis: yAxis,
+    valueYField: "value",
+    sequencedInterpolation: true,
+    categoryXField: "country"
+  })
+);
+
+series.columns.template.setAll({
+  width: am5.percent(120),
+  fillOpacity: 0.9,
+  strokeOpacity: 0
 });
+series.columns.template.adapters.add("fill", (fill, target) => {
+  return chart.get("colors").getIndex(series.columns.indexOf(target));
+});
+
+series.columns.template.adapters.add("stroke", (stroke, target) => {
+  return chart.get("colors").getIndex(series.columns.indexOf(target));
+});
+
+series.columns.template.set("draw", function (display, target) {
+  var w = target.getPrivate("width", 0);
+  var h = target.getPrivate("height", 0);
+  display.moveTo(0, h);
+  display.bezierCurveTo(w / 4, h, w / 4, 0, w / 2, 0);
+  display.bezierCurveTo(w - w / 4, 0, w - w / 4, h, w, h);
+});
+
+// Set data
+var data = [{% for post in posts %}{
+  country: "{{ post.name }}",
+  value: {{ post.quantity }}
+},{% endfor %} {
+  country: "China",
+  value: 1882
+}, {
+  country: "Japan",
+  value: 1809
+}, {
+  country: "Germany",
+  value: 1322
+}, {
+  country: "UK",
+  value: 1122
+}, {
+  country: "France",
+  value: 1114
+}];
+
+xAxis.data.setAll(data);
+series.data.setAll(data);
+
+
+series.appear(1000);
+chart.appear(1000, 100);
+
+}); 
 </script>
+
 {% endblock content %}
