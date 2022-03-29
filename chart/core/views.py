@@ -19,6 +19,8 @@ def pieMarket(request):
 	expenses = Expense.objects.all()
 	users = User.objects.all()
 	context = {
-		"posts": posts
+		"posts": posts,
+		"expenses": expenses,
+		"users": users
 	}
 	return render(request, 'blog/market-pie.html', context)
