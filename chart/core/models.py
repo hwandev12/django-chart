@@ -12,3 +12,16 @@ class Post(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class Expense(models.Model):
+
+    class Meta:
+        verbose_name = "Expense"
+        verbose_name_plural = "My Dashboard Expenses"
+
+    name = models.CharField(max_length=100)
+    value = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+    

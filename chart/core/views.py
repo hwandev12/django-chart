@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Post, Expense
 
 
 def home(request):
 	posts = Post.objects.all()
+	expenses = Expense.objects.all()
 	context = {
-		"posts": posts
+		"posts": posts,
+		"expenses": expenses
 	}
 	return render(request, 'blog/index.html', context)
 
