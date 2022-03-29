@@ -16,6 +16,8 @@ def home(request):
 # Piemarket
 def pieMarket(request):
 	posts = Post.objects.all()
+	expenses = Expense.objects.all()
+	users = User.objects.all()
 	context = {
 		"posts": posts
 	}
