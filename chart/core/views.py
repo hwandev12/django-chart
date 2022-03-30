@@ -27,3 +27,7 @@ def pieMarket(request):
 
 def line(request):
 	return render(request, 'blog/line.html')
+def bubble(request):
+	return render(request, 'blog/bubble.html')
+def flow(request):
+	return render(request, 'blog/flow.html')
