@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Expense, User
+from .models import Post, Expense, User, Line
 
 
 def home(request):
@@ -26,7 +26,11 @@ def pieMarket(request):
 	return render(request, 'blog/market-pie.html', context)
 
 def line(request):
-	return render(request, 'blog/line.html')
+	lines = Line.objects.all()
+	context = {
+	"lines": lines
+	}
+	return render(request, 'blog/line.html', context)
 def bubble(request):
 	return render(request, 'blog/bubble.html')
 def flow(request):

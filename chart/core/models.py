@@ -41,3 +41,16 @@ class User(models.Model):
 
  	def __str__(self):
  		return self.name
+
+class Line(models.Model):
+
+    class Meta:
+        verbose_name = "Line"
+        verbose_name_plural = "My Lines"
+
+    date = models.CharField(max_length=40)
+    value = models.IntegerField() 
+
+    def __str__(self):
+        return self.date
+    
