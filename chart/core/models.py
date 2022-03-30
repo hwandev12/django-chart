@@ -1,3 +1,4 @@
+# from colorfield.fields import ColorField
 from django.db import models
 
 
@@ -67,6 +68,7 @@ class Time(models.Model):
     hour = models.CharField(max_length=40)
     weekday = models.CharField(max_length=30)
     value = models.IntegerField()
+    # color = ColorField(default='#FF0000')
 
     def __str__(self):
         return self.hour

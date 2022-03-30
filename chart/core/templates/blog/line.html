@@ -26,10 +26,10 @@ am5.ready(function() {
         dateFields: ["valueX"]
     });
 
-    var data = [{ % for line in lines % } {
+    var data = [{% for line in lines %} {
         "date": "{{ line.date }}",
-        "value": { { line.value } }
-    }, { % endfor % }];
+        "value": {{ line.value }}
+    }, {% endfor %}];
 
 
     // Create chart
@@ -92,8 +92,7 @@ am5.ready(function() {
     });
 
 
-    // Set up data processor to parse string dates
-    // https://www.amcharts.com/docs/v5/concepts/data/#Pre_processing_data
+
     series.data.processor = am5.DataProcessor.new(root, {
         dateFormat: "yyyy-MM-dd",
         dateFields: ["date"]
@@ -115,8 +114,6 @@ am5.ready(function() {
     });
 
 
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
     var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
         xAxis: xAxis,
         behavior: "none"
@@ -129,10 +126,9 @@ am5.ready(function() {
     }));
 
 
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
+
     chart.appear(1000, 100);
 
-}); // end am5.ready()
+});
 </script>
 {% endblock content %}

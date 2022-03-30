@@ -81,10 +81,10 @@ am5.ready(function() {
 
 
     // Set data
-    var data = [{ % for post in posts % } {
+    var data = [{% for post in posts %} {
         country: "{{ post.name }}",
-        value: { { post.quantity } }
-    }, { % endfor % } {
+        value: {{ post.quantity }}
+    }, {% endfor %} {
         country: "China",
         value: 1882
     }];

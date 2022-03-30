@@ -21,7 +21,9 @@ def pieMarket(request):
 
 def line(request):
     lines = Line.objects.all()
-    context = {"lines": lines}
+    context = {
+    "lines": lines
+    }
     return render(request, 'blog/line.html', context)
 
 

@@ -110,10 +110,10 @@ am5.ready(function() {
     });
 
     // Set data
-    var data = [{ % for post in posts % } {
+    var data = [{% for post in posts %} {
         country: "{{ post.name }}",
-        value: { { post.quantity } }
-    }, { % endfor % }];
+        value: {{ post.quantity }}
+    }, {% endfor %}];
 
     xAxis.data.setAll(data);
     series.data.setAll(data);
@@ -196,12 +196,12 @@ am5.ready(function() {
     );
 
     var data = [
-        { % for expense in expenses % } {
+        {% for expense in expenses %} {
             country: "{{ expense.name }}",
-            litres: { { expense.value } },
-            bottles: { { expense.value } }
+            litres: {{ expense.value }},
+            bottles: {{ expense.value }}
         },
-        { % endfor % }
+        {% endfor %}
     ];
 
     // Set data

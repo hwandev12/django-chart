@@ -116,11 +116,11 @@ am5.ready(function() {
 
     // Set data
     // https://www.amcharts.com/docs/v5/charts/xy-chart/#Setting_data
-    var data = [{ % for time in times % } {
+    var data = [{% for time in times %} {
         hour: "{{ time.hour }}",
         weekday: "{{ time.weekday }}",
-        value: { { time.value } }
-    }, { % endfor % }];
+        value: {{ time.value }}
+    }, {% endfor %}];
 
     series.data.setAll(data);
 
