@@ -1,5 +1,6 @@
 # from colorfield.fields import ColorField
 from django.db import models
+from django.shortcuts import render
 
 
 class Post(models.Model):
@@ -72,3 +73,15 @@ class Time(models.Model):
 
     def __str__(self):
         return self.hour
+
+class Flow(models.Model):
+    
+    class Meta:
+        verbose_name = "Flow"
+        verbose_name_plural = "My Flow Times"
+        
+    value = models.IntegerField()
+    category = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.category

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post, Expense, User, Line, Time
+from .models import Flow, Post, Expense, User, Line, Time
 
 
 def home(request):
@@ -34,7 +34,11 @@ def bubble(request):
 
 
 def flow(request):
-    return render(request, 'blog/flow.html')
+    flowes = Flow.objects.all()
+    context = {
+        "flowes": flowes
+    }
+    return render(request, 'blog/flow.html', context)
 
 
 def diagram(request):
