@@ -24,3 +24,6 @@ def pieMarket(request):
 		"users": users
 	}
 	return render(request, 'blog/market-pie.html', context)
+
+def line(request):
+	return render(request, 'blog/line.html')
