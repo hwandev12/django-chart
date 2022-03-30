@@ -8,214 +8,209 @@
 </div>
 <style>
 #chartdiv {
-  width: 60%;
-  height: 430px;
-  box-shadow: -3px -3px 6px #d3dceb;
+    width: 60%;
+    height: 430px;
+    box-shadow: -3px -3px 6px #d3dceb;
 }
+
 #chartdiv2 {
-  width: 35%;
-  height: 430px;
-  box-shadow: -3px -3px 10px #d3dceb;
+    width: 35%;
+    height: 430px;
+    box-shadow: -3px -3px 10px #d3dceb;
 }
+
 .parent {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 </style>
-
 <!-- Resources -->
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
 <!-- Chart code -->
 <script>
 am5.ready(function() {
 
 
-var root = am5.Root.new("chartdiv");
+    var root = am5.Root.new("chartdiv");
 
 
-root.setThemes([
-  am5themes_Animated.new(root)
-]);
+    root.setThemes([
+        am5themes_Animated.new(root)
+    ]);
 
 
-var chart = root.container.children.push(
-  am5xy.XYChart.new(root, {
-    panX: true,
-    panY: true,
-    wheelX: "panX",
-    wheelY: "zoomX"
-  })
-);
+    var chart = root.container.children.push(
+        am5xy.XYChart.new(root, {
+            panX: true,
+            panY: true,
+            wheelX: "panX",
+            wheelY: "zoomX"
+        })
+    );
 
 
-var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-cursor.lineY.set("visible", false);
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+    cursor.lineY.set("visible", false);
 
 
-var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+    var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
 
-var xAxis = chart.xAxes.push(
-  am5xy.CategoryAxis.new(root, {
-    maxDeviation: 0.3,
-    categoryField: "country",
-    renderer: xRenderer,
-    tooltip: am5.Tooltip.new(root, {})
-  })
-);
+    var xAxis = chart.xAxes.push(
+        am5xy.CategoryAxis.new(root, {
+            maxDeviation: 0.3,
+            categoryField: "country",
+            renderer: xRenderer,
+            tooltip: am5.Tooltip.new(root, {})
+        })
+    );
 
-var yAxis = chart.yAxes.push(
-  am5xy.ValueAxis.new(root, {
-    maxDeviation: 0.3,
-    renderer: am5xy.AxisRendererY.new(root, {})
-  })
-);
+    var yAxis = chart.yAxes.push(
+        am5xy.ValueAxis.new(root, {
+            maxDeviation: 0.3,
+            renderer: am5xy.AxisRendererY.new(root, {})
+        })
+    );
 
 
-var series = chart.series.push(
-  am5xy.ColumnSeries.new(root, {
-    name: "Series 1",
-    xAxis: xAxis,
-    yAxis: yAxis,
-    valueYField: "value",
-    sequencedInterpolation: true,
-    categoryXField: "country"
-  })
-);
+    var series = chart.series.push(
+        am5xy.ColumnSeries.new(root, {
+            name: "Series 1",
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueYField: "value",
+            sequencedInterpolation: true,
+            categoryXField: "country"
+        })
+    );
 
-series.columns.template.setAll({
-  width: am5.percent(120),
-  fillOpacity: 0.9,
-  strokeOpacity: 0
+    series.columns.template.setAll({
+        width: am5.percent(120),
+        fillOpacity: 0.9,
+        strokeOpacity: 0
+    });
+    series.columns.template.adapters.add("fill", (fill, target) => {
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    series.columns.template.adapters.add("stroke", (stroke, target) => {
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    series.columns.template.set("draw", function(display, target) {
+        var w = target.getPrivate("width", 0);
+        var h = target.getPrivate("height", 0);
+        display.moveTo(0, h);
+        display.bezierCurveTo(w / 4, h, w / 4, 0, w / 2, 0);
+        display.bezierCurveTo(w - w / 4, 0, w - w / 4, h, w, h);
+    });
+
+    // Set data
+    var data = [{ % for post in posts % } {
+        country: "{{ post.name }}",
+        value: { { post.quantity } }
+    }, { % endfor % }];
+
+    xAxis.data.setAll(data);
+    series.data.setAll(data);
+
+
+    series.appear(1000);
+    chart.appear(1000, 100);
+
 });
-series.columns.template.adapters.add("fill", (fill, target) => {
-  return chart.get("colors").getIndex(series.columns.indexOf(target));
-});
-
-series.columns.template.adapters.add("stroke", (stroke, target) => {
-  return chart.get("colors").getIndex(series.columns.indexOf(target));
-});
-
-series.columns.template.set("draw", function (display, target) {
-  var w = target.getPrivate("width", 0);
-  var h = target.getPrivate("height", 0);
-  display.moveTo(0, h);
-  display.bezierCurveTo(w / 4, h, w / 4, 0, w / 2, 0);
-  display.bezierCurveTo(w - w / 4, 0, w - w / 4, h, w, h);
-});
-
-// Set data
-var data = [{% for post in posts %}{
-  country: "{{ post.name }}",
-  value: {{ post.quantity }}
-},{% endfor %}];
-
-xAxis.data.setAll(data);
-series.data.setAll(data);
-
-
-series.appear(1000);
-chart.appear(1000, 100);
-
-}); 
 </script>
-
-
-
 <script>
 am5.ready(function() {
 
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv2");
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    var root = am5.Root.new("chartdiv2");
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([
-  am5themes_Animated.new(root)
-]);
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([
+        am5themes_Animated.new(root)
+    ]);
 
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
-var chart = root.container.children.push(
-  am5percent.PieChart.new(root, {
-    startAngle: 160, endAngle: 380
-  })
-);
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+    var chart = root.container.children.push(
+        am5percent.PieChart.new(root, {
+            startAngle: 160,
+            endAngle: 380
+        })
+    );
 
-// Create series
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+    // Create series
+    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
 
-var series0 = chart.series.push(
-  am5percent.PieSeries.new(root, {
-    valueField: "litres",
-    categoryField: "country",
-    startAngle: 160,
-    endAngle: 380,
-    radius: am5.percent(70),
-    innerRadius: am5.percent(65)
-  })
-);
+    var series0 = chart.series.push(
+        am5percent.PieSeries.new(root, {
+            valueField: "litres",
+            categoryField: "country",
+            startAngle: 160,
+            endAngle: 380,
+            radius: am5.percent(70),
+            innerRadius: am5.percent(65)
+        })
+    );
 
-var colorSet = am5.ColorSet.new(root, {
-  colors: [series0.get("colors").getIndex(0)],
-  passOptions: {
-    lightness: -0.05,
-    hue: 0
-  }
-});
+    var colorSet = am5.ColorSet.new(root, {
+        colors: [series0.get("colors").getIndex(0)],
+        passOptions: {
+            lightness: -0.05,
+            hue: 0
+        }
+    });
 
-series0.set("colors", colorSet);
+    series0.set("colors", colorSet);
 
-series0.ticks.template.set("forceHidden", true);
-series0.labels.template.set("forceHidden", true);
+    series0.ticks.template.set("forceHidden", true);
+    series0.labels.template.set("forceHidden", true);
 
-var series1 = chart.series.push(
-  am5percent.PieSeries.new(root, {
-    startAngle: 160,
-    endAngle: 380,
-    valueField: "bottles",
-    innerRadius: am5.percent(80),
-    categoryField: "country"
-  })
-);
+    var series1 = chart.series.push(
+        am5percent.PieSeries.new(root, {
+            startAngle: 160,
+            endAngle: 380,
+            valueField: "bottles",
+            innerRadius: am5.percent(80),
+            categoryField: "country"
+        })
+    );
 
-series1.ticks.template.set("forceHidden", true);
-series1.labels.template.set("forceHidden", true);
+    series1.ticks.template.set("forceHidden", true);
+    series1.labels.template.set("forceHidden", true);
 
-var label = chart.seriesContainer.children.push(
-  am5.Label.new(root, {
-    textAlign: "center",
-    centerY: am5.p100,
-    centerX: am5.p50,
-    text: "[fontSize:18px]total[/]:\n[bold fontSize:30px]7680.9[/]"
-  })
-);
+    var label = chart.seriesContainer.children.push(
+        am5.Label.new(root, {
+            textAlign: "center",
+            centerY: am5.p100,
+            centerX: am5.p50,
+            text: "[fontSize:18px]total[/]:\n[bold fontSize:30px]7680.9[/]"
+        })
+    );
 
-var data = [
-  {% for expense in expenses %}
-  {
-    country: "{{ expense.name }}",
-    litres: {{ expense.value  }},
-    bottles: {{ expense.value }}
-  },
-  {% endfor %}
-];
+    var data = [
+        { % for expense in expenses % } {
+            country: "{{ expense.name }}",
+            litres: { { expense.value } },
+            bottles: { { expense.value } }
+        },
+        { % endfor % }
+    ];
 
-// Set data
-// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
-series0.data.setAll(data);
-series1.data.setAll(data);
+    // Set data
+    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+    series0.data.setAll(data);
+    series1.data.setAll(data);
 
 }); // end am5.ready()
 </script>
-
 {% include "blog/statis.html" %}
 {% include "blog/subscription.html" %}
-
 {% endblock content %}
