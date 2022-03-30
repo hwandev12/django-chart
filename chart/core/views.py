@@ -31,3 +31,5 @@ def bubble(request):
 	return render(request, 'blog/bubble.html')
 def flow(request):
 	return render(request, 'blog/flow.html')
+def diagram(request):
+	return render(request, 'blog/diagram.html')
