@@ -22,7 +22,7 @@ SECRET_KEY = 'q5(cm_ag4%ohj3iznaqssi^l5u4po0vjwbol#iod3t$e!$(5xi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['django-chart-app.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
